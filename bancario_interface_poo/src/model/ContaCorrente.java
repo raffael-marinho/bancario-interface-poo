@@ -2,6 +2,8 @@ package model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ContaCorrente implements IConta {
@@ -10,6 +12,8 @@ public class ContaCorrente implements IConta {
 	private BigDecimal saldo;
 	private LocalDateTime dataAbertura;
 	private boolean status;
+
+	private List<Transacao> transacoes = new ArrayList<>();
 
 	public ContaCorrente() {
 	}
@@ -75,6 +79,7 @@ public class ContaCorrente implements IConta {
 		// TODO Auto-generated method stub
 		if (isStatus() && quantia.compareTo(this.saldo) == -1 && quantia.compareTo(new BigDecimal("0")) == -1) {
 			this.saldo = this.saldo.subtract(quantia);
+			transacoes.add(new Transacao(quantia, LocalDateTime.now(), "DEBITO", null));
 			return true;
 		}
 		return false;
@@ -91,6 +96,7 @@ public class ContaCorrente implements IConta {
 		// TODO Auto-generated method stub
 		if (isStatus() && quantia.compareTo(new BigDecimal("0")) == 1) {
 			this.saldo = this.saldo.add(quantia);
+			transacoes.add(new Transacao(quantia, LocalDateTime.now(), "CREDITO", null));
 			return true;
 		}
 		return false;
@@ -104,6 +110,7 @@ public class ContaCorrente implements IConta {
 					&& quantia.compareTo(BigDecimal.ZERO) == 1) {
 				this.saldo = this.saldo.subtract(quantia);
 				destino.setSaldo(destino.getSaldo().add(quantia));
+				transacoes.add(new Transacao(quantia, LocalDateTime.now(), "DEBITO_CREDITO", destino));
 				return true;
 			}
 		} else if (destino instanceof ContaPoupanca) {
@@ -113,6 +120,7 @@ public class ContaCorrente implements IConta {
 				this.saldo = this.saldo
 						.subtract(quantia.add(quantia.multiply(new BigDecimal(IConta.TAXA_ADMINISTRATIVA))));
 				destino.setSaldo(destino.getSaldo().add(quantia));
+				transacoes.add(new Transacao(quantia, LocalDateTime.now(), "DEBITO_CREDITO", destino));
 				return true;
 			}
 		}
