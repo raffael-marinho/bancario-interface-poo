@@ -25,7 +25,7 @@ public class ContaCorrente implements IConta {
 	@Override
 	public void realizarTransferencia(IConta destino, BigDecimal quantia) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
