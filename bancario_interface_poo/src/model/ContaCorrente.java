@@ -97,9 +97,27 @@ public class ContaCorrente implements IConta {
 	}
 
 	@Override
-	public void realizarTransferencia(IConta destino, BigDecimal quantia) {
+	public boolean realizarTransferencia(IConta destino, BigDecimal quantia) {
 		// TODO Auto-generated method stub
+		if (destino instanceof ContaCorrente) {
+			if (isStatus() && destino.isStatus() && quantia.compareTo(saldo) == -1
+					&& quantia.compareTo(BigDecimal.ZERO) == 1) {
+				this.saldo = this.saldo.subtract(quantia);
+				destino.setSaldo(destino.getSaldo().add(quantia));
+				return true;
+			}
+		} else if (destino instanceof ContaPoupanca) {
+			if (isStatus() && destino.isStatus()
+					&& quantia.add(quantia.multiply(new BigDecimal(IConta.TAXA_ADMINISTRATIVA))).compareTo(saldo) == -1
+					&& quantia.compareTo(BigDecimal.ZERO) == 1) {
+				this.saldo = this.saldo
+						.subtract(quantia.add(quantia.multiply(new BigDecimal(IConta.TAXA_ADMINISTRATIVA))));
+				destino.setSaldo(destino.getSaldo().add(quantia));
+				return true;
+			}
+		}
 
+		return false;
 	}
 
 	@Override

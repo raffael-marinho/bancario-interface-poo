@@ -20,7 +20,7 @@ public class ContaPoupanca implements IConta {
 		this.dataAbertura = LocalDateTime.now();
 		this.status = true;
 	}
-	
+
 	public String getNumero() {
 		return numero;
 	}
@@ -89,9 +89,9 @@ public class ContaPoupanca implements IConta {
 	}
 
 	@Override
-	public void realizarTransferencia(IConta destino, BigDecimal quantia) {
+	public boolean realizarTransferencia(IConta destino, BigDecimal quantia) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override
