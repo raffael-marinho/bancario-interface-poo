@@ -94,4 +94,10 @@ public class ContaPoupanca implements IConta {
 
 	}
 
+	@Override
+	public String toString() {
+		return "ContaPoupanca [numero=" + numero + ", saldo=" + saldo + ", dataAbertura=" + dataAbertura + ", status="
+				+ status + "]";
+	}
+
 }
