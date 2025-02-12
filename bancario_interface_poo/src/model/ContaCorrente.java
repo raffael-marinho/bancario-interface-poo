@@ -73,18 +73,26 @@ public class ContaCorrente implements IConta {
 	@Override
 	public boolean realizarSaque(BigDecimal quantia) {
 		// TODO Auto-generated method stub
+		if (isStatus() && quantia.compareTo(this.saldo) == -1 && quantia.compareTo(new BigDecimal("0")) == -1) {
+			this.saldo = this.saldo.subtract(quantia);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public BigDecimal consultarSaldo() {
 		// TODO Auto-generated method stub
-		return null;
+		return saldo;
 	}
 
 	@Override
 	public boolean realizarDeposito(BigDecimal quantia) {
 		// TODO Auto-generated method stub
+		if (isStatus() && quantia.compareTo(new BigDecimal("0")) == 1) {
+			this.saldo = this.saldo.add(quantia);
+			return true;
+		}
 		return false;
 	}
 
